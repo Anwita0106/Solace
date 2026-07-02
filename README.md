@@ -17,7 +17,6 @@ no order ever leaves your machine until it's been fully validated.
 - [How to Run](#how-to-run)
 - [Logging](#logging)
 - [Error Handling](#error-handling)
-- [Future Improvements](#future-improvements)
 - [Assumptions](#assumptions)
 
 ---
@@ -260,8 +259,6 @@ go to `logs/trading.log` for debugging). Handled cases:
 - Binance rate limiting (`RateLimitError`)
 - Invalid trading symbol per Binance (`InvalidSymbolError`)
 - Any other unexpected exception (caught at the top level of the CLI)
-
----
 
 ---
 
