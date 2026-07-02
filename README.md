@@ -263,15 +263,6 @@ go to `logs/trading.log` for debugging). Handled cases:
 
 ---
 
-## Future Improvements
-
-- Add `STOP_LIMIT`, `OCO`, and `TWAP` order types (architecture already supports this — see [Architecture](#architecture)).
-- Add automated tests (pytest) with a mocked `BinanceFuturesClient`.
-- Add a `--config` flag to select between multiple `.env` profiles.
-- Add position/balance inspection commands (read-only, no order placement).
-- Add retry-with-backoff for transient network errors and rate limits.
-- Add structured (JSON) logging output as an alternative to plain text, for easier ingestion by log aggregation tools.
-
 ---
 
 ## Assumptions
