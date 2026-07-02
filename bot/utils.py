@@ -1,10 +1,4 @@
-"""
-Small shared helpers: execution timing and optional colored terminal output.
 
-Colored output uses `colorama` when it is installed, and falls back to
-plain (uncolored) text automatically otherwise, so the CLI never
-crashes on systems without the optional dependency.
-"""
 
 from __future__ import annotations
 
@@ -22,7 +16,6 @@ except ImportError:  # pragma: no cover - exercised only without colorama
 
 
 class _NoColor:
-    """Fallback stand-in for colorama color codes (all empty strings)."""
 
     def __getattr__(self, _name: str) -> str:
         return ""
@@ -33,13 +26,6 @@ _STYLE = Style if _COLOR_AVAILABLE else _NoColor()
 
 
 def color_text(text: str, color: str = "") -> str:
-    """Wrap `text` in a color code if colorama is available.
-
-    Args:
-        text: Text to colorize.
-        color: One of "green", "red", "yellow", "cyan", "bold". Unknown
-            or empty values return the text unmodified.
-    """
     palette = {
         "green": _FORE.GREEN,
         "red": _FORE.RED,

@@ -1,10 +1,4 @@
-"""
-Typed data models shared across the application.
 
-Using enums and dataclasses (instead of raw strings/dicts) gives us
-type-checked, self-documenting objects as they flow through the
-CLI -> Validation -> Order Service -> Client layers.
-"""
 
 from __future__ import annotations
 
@@ -21,12 +15,7 @@ class OrderSide(str, Enum):
 
 
 class OrderType(str, Enum):
-    """Supported order types.
 
-    Kept as a small, closed enum today. Extending the bot with
-    STOP_LIMIT, OCO, or TWAP later only requires adding a new member
-    here and a new order-building branch in `orders.py`.
-    """
 
     MARKET = "MARKET"
     LIMIT = "LIMIT"
@@ -34,13 +23,7 @@ class OrderType(str, Enum):
 
 @dataclass(frozen=True)
 class OrderRequest:
-    """A fully validated, ready-to-submit order request.
 
-    Instances of this class are only ever constructed by the
-    validation layer, so by the time an `OrderRequest` reaches the
-    order service or the Binance client, it is guaranteed to be
-    internally consistent (e.g. LIMIT orders always carry a price).
-    """
 
     symbol: str
     side: OrderSide
@@ -71,13 +54,7 @@ class OrderResult:
 
     @classmethod
     def from_binance_response(cls, response: dict) -> "OrderResult":
-        """Build an `OrderResult` from a raw Binance Futures API response.
 
-        Binance's `avgPrice` field is sometimes returned as "0.00000"
-        for orders it has not finished filling (or for MARKET orders
-        where the field is momentarily absent), so we normalize that
-        to `None` rather than reporting a misleading zero price.
-        """
         avg_price_raw = response.get("avgPrice")
         avg_price: Optional[float]
         try:

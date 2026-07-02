@@ -1,10 +1,4 @@
-"""
-Order service.
 
-Sits between the CLI and the Binance client: orchestrates validation,
-logging, timing, and dry-run short-circuiting. The CLI never talks to
-`BinanceFuturesClient` directly -- it only ever talks to this module.
-"""
 
 from __future__ import annotations
 
@@ -20,38 +14,14 @@ logger = logging.getLogger(__name__)
 
 
 class OrderService:
-    """Coordinates order placement: logging, timing, and dry-run handling.
 
-    Extending the bot with a new order type (e.g. STOP_LIMIT, OCO, TWAP)
-    only requires adding a new branch in `_execute` (and a matching
-    `BinanceFuturesClient` method) -- the rest of this class, and every
-    caller of it, stays unchanged.
-    """
 
     def __init__(self, client: Optional[BinanceFuturesClient]) -> None:
-        """Args:
-        client: A constructed `BinanceFuturesClient`, or `None` if this
-            service will only ever be used in dry-run mode.
-        """
+
         self._client = client
 
     def place_order(self, order: OrderRequest, dry_run: bool = False) -> OrderResult:
-        """Validate-then-submit an order, or simulate it in dry-run mode.
-
-        Args:
-            order: A pre-validated `OrderRequest`.
-            dry_run: If True, no network call is made; a synthetic
-                `OrderResult` describing the *intended* order is returned.
-
-        Returns:
-            An `OrderResult` describing the outcome.
-
-        Raises:
-            OrderExecutionError: If the order could not be placed or the
-                response could not be parsed.
-            BinanceClientError: For network/auth/rate-limit/API failures
-                (propagated from the client layer for the CLI to report).
-        """
+       
         logger.info("Validated order request: %s", order.to_log_dict())
 
         if dry_run:
@@ -83,7 +53,6 @@ class OrderService:
             ) from exc
 
     def _execute(self, order: OrderRequest) -> dict:
-        """Dispatch to the correct Binance client method based on order type."""
         if self._client is None:
             raise OrderExecutionError(
                 "No Binance client is configured; cannot submit a live order."
@@ -105,7 +74,7 @@ class OrderService:
 
     @staticmethod
     def _build_dry_run_result(order: OrderRequest) -> OrderResult:
-        """Build a synthetic result describing what *would* be submitted."""
+        
         logger.info("Dry-run mode: order was validated but not submitted.")
         return OrderResult(
             order_id="DRY-RUN",

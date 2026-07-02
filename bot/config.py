@@ -1,10 +1,4 @@
-"""
-Application configuration.
 
-Credentials and other environment-dependent settings are read from a
-`.env` file (via python-dotenv) so that secrets never end up
-hardcoded in source control.
-"""
 
 from __future__ import annotations
 
@@ -26,7 +20,7 @@ LOG_FILE_PATH = LOG_DIRECTORY / "trading.log"
 
 @dataclass(frozen=True)
 class BotConfig:
-    """Immutable runtime configuration for the trading bot."""
+    
 
     api_key: str
     api_secret: str
@@ -41,21 +35,7 @@ class BotConfig:
 
 
 def load_config(env_file: str | None = None) -> BotConfig:
-    """Load configuration from environment variables / a `.env` file.
 
-    Args:
-        env_file: Optional explicit path to a `.env` file. Defaults to
-            the `.env` file in the project root, if present.
-
-    Returns:
-        A populated `BotConfig` instance.
-
-    Raises:
-        ConfigurationError: If required API credentials are missing.
-            Note: credential *presence* is validated here; credential
-            *validity* can only be confirmed by Binance itself at
-            request time (handled by the client/exception layers).
-    """
     dotenv_path = Path(env_file) if env_file else PROJECT_ROOT / ".env"
     if dotenv_path.exists():
         load_dotenv(dotenv_path=dotenv_path)

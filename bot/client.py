@@ -1,10 +1,3 @@
-"""
-Binance Futures Testnet client wrapper.
-
-This is the only module that imports `binance` directly. Every other
-layer talks to `BinanceFuturesClient`, so swapping the underlying SDK
-(or mocking it in tests) never touches business logic elsewhere.
-"""
 
 from __future__ import annotations
 
@@ -37,14 +30,10 @@ _RATE_LIMIT_HTTP_STATUS = 429
 
 
 class BinanceFuturesClient:
-    """Thin, exception-normalizing wrapper around `python-binance`'s Futures API."""
+
 
     def __init__(self, config: BotConfig) -> None:
-        """Initialize the underlying SDK client against the Futures Testnet.
 
-        Raises:
-            BinanceClientError: If the SDK client itself cannot be constructed.
-        """
         self._config = config
         try:
             self._client = Client(
@@ -68,13 +57,7 @@ class BinanceFuturesClient:
             ) from exc
 
     def verify_connectivity(self) -> None:
-        """Ping the Futures Testnet and check server time, to fail fast on bad setup.
 
-        Raises:
-            NetworkError: On connection/timeout issues.
-            AuthenticationError: If credentials are rejected.
-            BinanceClientError: For any other API-reported problem.
-        """
         try:
             self._client.futures_ping()
             self._client.futures_time()
@@ -98,7 +81,7 @@ class BinanceFuturesClient:
     def create_limit_order(
         self, symbol: str, side: OrderSide, quantity: float, price: float
     ) -> dict:
-        """Submit a LIMIT (GTC) order and return the raw Binance response."""
+   
         return self._submit_order(
             symbol=symbol,
             side=side,
@@ -115,9 +98,7 @@ class BinanceFuturesClient:
         quantity: float,
         price: Optional[float],
     ) -> dict:
-        """Build and submit a futures order, normalizing any failure into
-        one of the `BinanceClientError` subtypes.
-        """
+
         order_kwargs: dict = {
             "symbol": symbol,
             "side": side.value,

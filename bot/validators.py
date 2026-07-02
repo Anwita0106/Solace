@@ -1,10 +1,4 @@
-"""
-Validation layer.
 
-Responsible for turning raw, untrusted CLI input (strings) into a
-fully-typed, internally consistent `OrderRequest`. No network calls
-happen here -- this layer only ever inspects the data it is given.
-"""
 
 from __future__ import annotations
 

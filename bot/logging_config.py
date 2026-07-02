@@ -1,11 +1,4 @@
-"""
-Centralized logging setup.
 
-Every layer of the bot obtains its logger via `logging.getLogger(__name__)`
-after `setup_logging()` has been called once from the CLI entry point.
-Logs go to both the console (concise) and `logs/trading.log` (detailed,
-rotating), so troubleshooting a failed order never requires reproducing it.
-"""
 
 from __future__ import annotations
 
@@ -24,12 +17,7 @@ _CONSOLE_LOG_FORMAT = "%(levelname)-8s | %(message)s"
 
 
 def setup_logging(verbose: bool = False) -> None:
-    """Configure root logging handlers exactly once per process.
 
-    Args:
-        verbose: If True, the console handler also emits DEBUG messages.
-            The log file always captures INFO and above.
-    """
     global _LOGGING_CONFIGURED
     if _LOGGING_CONFIGURED:
         return

@@ -1,10 +1,3 @@
-"""
-Custom exception hierarchy for the trading bot.
-
-Keeping exceptions in one place lets every layer (CLI, validators,
-client, order service) raise and catch precise, well-named errors
-instead of leaking raw third-party exceptions upward.
-"""
 
 from __future__ import annotations
 
