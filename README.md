@@ -268,5 +268,4 @@ go to `logs/trading.log` for debugging). Handled cases:
 - Only USDT-M Futures Testnet is supported (no Spot, no Coin-M, no mainnet).
 - LIMIT orders are always submitted with `timeInForce=GTC`.
 - Quantity/price precision (step size, tick size) validation is delegated to Binance's own API-level rejection rather than duplicated client-side, since per-symbol exchange info can change independently of this bot.
-- A single `.env` file provides one set of testnet credentials; multi-account support is out of scope for this version.
 - `colorama` is an optional dependency for nicer terminal output; the CLI is fully functional (in plain text) without it.
